@@ -1,0 +1,44 @@
+div{
+    
+    background-color: brown;
+    display: inline-block;
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 150px;
+}
+body{
+    background-image: url("background_photo.jpg.jpg");
+    background-size: cover;
+}
+#box1{
+    background-color: bisque;
+    background-image:url("flower_photo.jpg.jpg");
+    background-size: cover;
+    height: 200px;
+    width: 150px;
+}
+#box2{
+    background-color: blue;
+    background-image: url("dmytro_photo.jpg.jpg");
+    background-size: cover;
+    height:200px;
+    width: 250px;
+}
+#box3{
+    background-color: blueviolet;
+    background-image: url("aleksandra_photo.jpg.jpg");
+    background-size: cover;
+    height:250px;
+    width:200px;
+
+}
+#box4{
+    background-color: brown;
+    background-image: url("animation_photo.jpg.jpg");
+     background-size: cover;
+    height:200px;
+    width:200px;
+  
+}
+
+
