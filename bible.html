@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Holy Bible — Vennala Divya</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rose:#e85d8a; --rose-light:#f092b0; --rose-dark:#c0406a;
+  --violet:#9b5de5; --violet-light:#c084fc; --violet-dark:#7c3aed;
+  --gold:#f4c842; --gold-light:#fde68a;
+  --teal:#be2424; --teal-light:#5eead4;
+  --sky:#38bdf8; --sky-light:#7dd3fc;
+  --deep:#0a0414; --card:#160826; --card2:#1e0d38;
+  --border:rgba(155,93,229,0.25); --text:#f3e8ff; --muted:#a78bcc;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'EB Garamond',serif;
+  min-height:100vh; overflow-x:hidden; color:var(--text);
+  background: #c68317;
+}
+
+/* ── ANIMATED BACKGROUND ── */
+.bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-layer::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%,   rgba(155,93,229,0.35) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 10%,  rgba(232,93,138,0.28) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 50% at 80% 90%,  rgba(45,212,191,0.2)  0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 20% 85%,  rgba(56,189,248,0.18) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 80% at 50% 50%,  rgba(124,58,237,0.12) 0%,transparent 70%);
+  animation: bgPulse 10s ease-in-out infinite alternate;
+}
+@keyframes bgPulse{
+  0%  {opacity:0.8;}
+  100%{opacity:1.0;}
+}
+.bg-layer::after{
+  content:'';position:absolute;inset:0;
+  background: linear-gradient(135deg,#0a0414 0%,#110622 40%,#0d0520 70%,#08030f 100%);
+  mix-blend-mode:multiply;
+}
+
+/* ── STARS ── */
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite alternate;}
+@keyframes twinkle{0%{opacity:0.1;transform:scale(0.8);}100%{opacity:0.9;transform:scale(1.2);}}
+
+/* ── HEADER ── */
+header{
+  position:relative;z-index:10;text-align:center;
+  padding:70px 20px 55px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(155,93,229,0.15) 0%,transparent 100%);
+}
+.cross-icon{font-size:2.6rem;margin-bottom:18px;display:block;
+  background:linear-gradient(135deg,var(--rose-light),var(--gold),var(--violet-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 16px rgba(232,93,138,0.5));
+  animation:glow 3s ease-in-out infinite alternate;
+}
+@keyframes glow{0%{filter:drop-shadow(0 0 10px rgba(155,93,229,0.5));}100%{filter:drop-shadow(0 0 24px rgba(232,93,138,0.8));}}
+header h1{
+  font-family:'Cinzel',serif;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:700;
+  background:linear-gradient(135deg,var(--gold-light) 0%,var(--rose-light) 40%,var(--violet-light) 80%,var(--teal-light) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:0.08em;line-height:1.1;
+  text-shadow:none;
+  filter:drop-shadow(0 2px 20px rgba(155,93,229,0.4));
+}
+header p{font-size:1.1rem;color:var(--muted);margin-top:12px;font-style:italic;letter-spacing:0.03em;}
+.tagline{
+  display:inline-block;margin-top:16px;
+  font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--violet-light);opacity:0.8;
+}
+.creator-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;
+  padding:7px 20px;
+  border-radius:30px;
+  background:linear-gradient(135deg,rgba(155,93,229,0.2),rgba(232,93,138,0.2));
+  border:1px solid rgba(155,93,229,0.4);
+  font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:0.12em;
+  color:var(--rose-light);
+  text-shadow:0 0 10px rgba(232,93,138,0.5);
+}
+.creator-badge .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--rose-light);
+  box-shadow:0 0 8px var(--rose-light);
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* ── CONTROLS ── */
+.controls{
+  position:sticky;top:0;z-index:100;
+  background:rgba(129, 26, 15, 0.94);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;
+}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:360px;}
+.search-wrap input{
+  width:100%;background:rgba(22,8,38,0.8);border:1px solid var(--border);
+  color:var(--text);font-family:'EB Garamond',serif;font-size:1rem;
+  padding:8px 14px 8px 38px;border-radius:30px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+}
+.search-wrap input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,93,229,0.15);}
+.search-wrap::before{content:'⌕';position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1.1rem;pointer-events:none;}
+.filter-btns{display:flex;gap:8px;}
+.filter-btn{
+  font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;
+  padding:7px 18px;border-radius:30px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);cursor:pointer;transition:all 0.2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:var(--violet);color:var(--violet-light);
+  background:rgba(155,93,229,0.15);box-shadow:0 0 12px rgba(155,93,229,0.2);
+}
+.filter-btn.nt-active{border-color:var(--teal);color:var(--teal-light);background:rgba(45,212,191,0.1);}
+
+/* ── STATS ── */
+.stats{display:flex;justify-content:center;gap:0;padding:30px 20px;position:relative;z-index:1;}
+.stat{
+  text-align:center;padding:20px 40px;
+  border-right:1px solid var(--border);
+}
+.stat:last-child{border-right:none;}
+.stat-num{
+  font-family:'Cinzel',serif;font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--rose-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-label{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* ── TESTAMENT SECTIONS ── */
+.testament-section{position:relative;z-index:1;padding:0 24px 60px;max-width:1400px;margin:0 auto;}
+.testament-title{
+  font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;
+  padding:12px 0 22px;display:flex;align-items:center;gap:16px;margin-bottom:8px;
+}
+.testament-title.ot{color:var(--gold);}
+.testament-title.nt{color:var(--teal);}
+.testament-title::before,.testament-title::after{content:'';flex:1;height:1px;}
+.testament-title.ot::before,.testament-title.ot::after{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.testament-title.nt::before,.testament-title.nt::after{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+
+/* ── BOOK GRID ── */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;}
+
+/* ── BOOK CARD ── */
+.book-card{
+  border-radius:12px;overflow:hidden;cursor:pointer;
+  transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;
+  animation:fadeUp 0.5s ease both;
+  position:relative;
+}
+.book-card.ot{
+  background:linear-gradient(135deg,#1a0d2e 0%,#120a24 100%);
+  border:1px solid rgba(244,200,66,0.2);
+}
+.book-card.nt{
+  background:linear-gradient(135deg,#091a2a 0%,#06121e 100%);
+  border:1px solid rgba(45,212,191,0.2);
+}
+.book-card:hover{transform:translateY(-4px) scale(1.01);}
+.book-card.ot:hover{border-color:rgba(244,200,66,0.5);box-shadow:0 16px 50px rgba(244,200,66,0.12),0 0 30px rgba(155,93,229,0.08);}
+.book-card.nt:hover{border-color:rgba(45,212,191,0.5);box-shadow:0 16px 50px rgba(45,212,191,0.12),0 0 30px rgba(56,189,248,0.08);}
+.book-card.hidden{display:none;}
+
+/* shimmer line on top of card */
+.book-card.ot::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--rose),transparent);opacity:0;transition:opacity 0.3s;}
+.book-card.nt::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),var(--sky),transparent);opacity:0;transition:opacity 0.3s;}
+.book-card:hover::before{opacity:1;}
+
+.card-header{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.book-num{
+  font-family:'Cinzel',serif;font-size:0.65rem;font-weight:600;
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ot .book-num{background:rgba(244,200,66,0.15);color:var(--gold);border:1px solid rgba(244,200,66,0.35);}
+.nt .book-num{background:rgba(48, 125, 22, 0.15);color:var(--teal);border:1px solid rgba(45,212,191,0.35);}
+.book-name{font-family:'Cinzel',serif;font-size:0.95rem;font-weight:600;flex:1;}
+.ot .book-name{color:var(--gold-light);}
+.nt .book-name{color:var(--teal-light);}
+.book-type{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+.ot .book-type{background:rgba(232,93,138,0.15);color:var(--rose-light);}
+.nt .book-type{background:rgba(56,189,248,0.15);color:var(--sky-light);}
+
+.card-body{padding:14px 16px;}
+.persons-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.persons-list{display:flex;flex-wrap:wrap;gap:6px;}
+.person-tag{font-size:0.8rem;padding:3px 10px;border-radius:20px;border:1px solid;transition:background 0.15s;}
+.ot .person-tag{border-color:rgba(244,200,66,0.2);color:#f0d070;background:rgba(244,200,66,0.06);}
+.nt .person-tag{border-color:rgba(45,212,191,0.2);color:var(--teal-light);background:rgba(45,212,191,0.06);}
+.click-hint{font-size:0.68rem;color:var(--muted);margin-top:10px;text-align:right;font-style:italic;opacity:0.6;}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(5,0,15,0.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:linear-gradient(160deg,#1a0830 0%,#120524 60%,#0d0318 100%);
+  border:1px solid rgba(155,93,229,0.4);
+  border-radius:14px;width:100%;max-width:720px;
+  max-height:88vh;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 80px rgba(155,93,229,0.15);
+  animation:modalIn 0.28s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.92) translateY(14px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-header{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:22px 24px 18px;
+  border-bottom:1px solid rgba(155,93,229,0.2);flex-shrink:0;
+  background:linear-gradient(90deg,rgba(155,93,229,0.08),rgba(232,93,138,0.06));
+}
+.modal-num{font-family:'Cinzel',serif;font-size:0.75rem;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.modal.ot .modal-num{background:rgba(244,200,66,0.15);color:var(--gold);border:1px solid rgba(244,200,66,0.35);}
+.modal.nt .modal-num{background:rgba(45,212,191,0.15);color:var(--teal);border:1px solid rgba(45,212,191,0.35);}
+.modal-title-wrap{flex:1;}
+.modal-title{font-family:'Cinzel',serif;font-size:1.55rem;font-weight:700;}
+.modal.ot .modal-title{
+  background:linear-gradient(90deg,var(--gold-light),var(--rose-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.modal.nt .modal-title{
+  background:linear-gradient(90deg,var(--teal-light),var(--sky-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.modal-subtitle{font-size:0.85rem;color:var(--muted);margin-top:3px;font-style:italic;}
+.modal-close{background:rgba(155,93,229,0.1);border:1px solid rgba(155,93,229,0.3);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.modal-close:hover{border-color:var(--rose);color:var(--rose-light);background:rgba(232,93,138,0.15);}
+
+.modal-summary{display:flex;gap:0;flex-shrink:0;border-bottom:1px solid rgba(155,93,229,0.15);}
+.summary-item{flex:1;padding:16px 20px;text-align:center;border-right:1px solid rgba(155,93,229,0.15);}
+.summary-item:last-child{border-right:none;}
+.summary-val{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:700;}
+.modal.ot .summary-val{background:linear-gradient(135deg,var(--gold),var(--rose-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.modal.nt .summary-val{background:linear-gradient(135deg,var(--teal),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.summary-lbl{font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+
+.modal-persons{padding:14px 24px;border-bottom:1px solid rgba(155,93,229,0.15);flex-shrink:0;}
+.modal-persons .persons-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.modal-persons .persons-list{display:flex;flex-wrap:wrap;gap:6px;}
+
+.modal-body{overflow-y:auto;padding:20px 24px 24px;flex:1;}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-thumb{background:rgba(155,93,229,0.4);border-radius:2px;}
+.chapters-label{font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.chapters-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+.chapter-row{
+  display:flex;align-items:center;gap:10px;
+  border-radius:6px;padding:9px 12px;
+  transition:all 0.15s;
+}
+.modal.ot .chapter-row{background:rgba(244,200,66,0.05);border:1px solid rgba(244,200,66,0.12);}
+.modal.nt .chapter-row{background:rgba(45,212,191,0.05);border:1px solid rgba(45,212,191,0.12);}
+.modal.ot .chapter-row:hover{background:rgba(244,200,66,0.1);border-color:rgba(244,200,66,0.3);}
+.modal.nt .chapter-row:hover{background:rgba(45,212,191,0.1);border-color:rgba(45,212,191,0.3);}
+.ch-num{font-family:'Cinzel',serif;font-size:0.7rem;min-width:28px;}
+.modal.ot .ch-num{color:var(--gold);}
+.modal.nt .ch-num{color:var(--teal);}
+.ch-bar-wrap{flex:1;height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+.ch-bar{height:100%;border-radius:3px;}
+.modal.ot .ch-bar{background:linear-gradient(90deg,var(--gold),var(--rose-light));}
+.modal.nt .ch-bar{background:linear-gradient(90deg,var(--teal),var(--sky-light));}
+.ch-words{font-size:0.76rem;color:var(--text);min-width:52px;text-align:right;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  text-align:center;
+  padding:40px 20px 50px;
+  border-top:1px solid var(--border);
+  background:linear-gradient(0deg,rgba(155,93,229,0.06) 0%,transparent 100%);
+}
+.footer-verse{
+  font-style:italic;color:var(--muted);font-size:1rem;line-height:1.7;
+}
+.footer-verse span{
+  background:linear-gradient(90deg,var(--gold),var(--rose-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.footer-creator{
+  margin-top:22px;
+  display:inline-flex;flex-direction:column;align-items:center;gap:6px;
+}
+.footer-creator-name{
+  font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;
+  background:linear-gradient(135deg,var(--rose-light),var(--violet-light),var(--gold-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:0.08em;
+  filter:drop-shadow(0 0 12px rgba(232,93,138,0.4));
+}
+.footer-creator-role{
+  font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--violet-light);opacity:0.7;
+}
+.footer-divider{
+  width:120px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--pink),transparent);
+  margin:14px auto 0;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.empty-state{display:none;text-align:center;padding:60px 20px;color:var(--muted);font-style:italic;font-size:1.1rem;grid-column:1/-1;}
+.empty-state.visible{display:block;}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="stars" id="stars"></div>
+
+<header>
+  <span class="cross-icon">✦ ✞ ✦</span>
+  <h1>Holy Bible</h1>
+  <p>The Sacred Scriptures — Old &amp; New Testament</p>
+  <span class="tagline">66 Books · Timeless Truth</span>
+  <br/>
+  <span class="creator-badge">
+    <span class="dot"></span>
+    Created by Vennala Divya
+  </span>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search books or persons…"/>
+  </div>
+  <div class="filter-btns">
+    <button class="filter-btn active" data-filter="all">All 66</button>
+    <button class="filter-btn" data-filter="ot">Old Testament</button>
+    <button class="filter-btn" data-filter="nt">New Testament</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">66</div><div class="stat-label">Books</div></div>
+  <div class="stat"><div class="stat-num">39</div><div class="stat-label">Old Testament</div></div>
+  <div class="stat"><div class="stat-num">27</div><div class="stat-label">New Testament</div></div>
+</div>
+
+<main id="main"></main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-num" id="mNum"></div>
+      <div class="modal-title-wrap">
+        <div class="modal-title" id="mTitle"></div>
+        <div class="modal-subtitle" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-summary">
+      <div class="summary-item"><div class="summary-val" id="mChapters"></div><div class="summary-lbl">Chapters</div></div>
+      <div class="summary-item"><div class="summary-val" id="mWords"></div><div class="summary-lbl">Total Words</div></div>
+      <div class="summary-item"><div class="summary-val" id="mAvg"></div><div class="summary-lbl">Avg Words/Ch</div></div>
+    </div>
+    <div class="modal-persons">
+      <div class="persons-label">Key Persons</div>
+      <div class="persons-list" id="mPersons"></div>
+    </div>
+    <div class="modal-body">
+      <div class="chapters-label">Chapter Word Counts</div>
+      <div class="chapters-grid" id="mChapterList"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-verse">
+    <span>"Thy word is a lamp unto my feet, and a light unto my path."</span><br/>— Psalm 119:105
+  </div>
+  <div class="footer-creator">
+    <div class="footer-divider"></div>
+    <div class="footer-creator-name">Vennala Divya</div>
+    <div class="footer-creator-role">✦ Website Creator ✦</div>
+  </div>
+</footer>
+
+<script>
+// Generate stars
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*2+0.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;animation-delay:${(Math.random()*4).toFixed(1)}s;opacity:${(Math.random()*0.5+0.1).toFixed(2)};`;
+    c.appendChild(s);
+  }
+})();
+
+const chapterWords={
+  "Genesis":[797,463,602,426,592,586,597,432,827,648,571,502,425,528,503,514,557,640,639,524,551,523,530,513,392,506,443,524,596,542,502,443,556,618,532,598,558,643,699,624,505,665,540,531,561,696,532,577,826,893],
+  "Exodus":[634,433,505,620,643,547,504,508,574,462,661,612,548,610,511,629,688,491,556,617,580,594,558,611,548,591,618,556,681,608,549,598,600,548,597,617,636,630],
+  "Leviticus":[656,487,528,486,551,561,461,481,497,540,548,438,512,422,551,556,475,469,592,485,472,497,447,558,599,579,541,597],
+  "Numbers":[603,669,583,540,557,497,617,566,456,512,500,575,636,583,561,585,601,605,649,601,494,498,583,579,559,658,603,649,627,621,628,499,646,641,558,623,634,663],
+  "Deuteronomy":[596,601,563,601,612,597,600,632,594,524,562,577,560,590,596,611,562,586,589,538,589,563,599,571,543,561,573,601,583,571,598,617,629],
+  "Joshua":[598,533,607,560,511,527,608,586,587,621,533,592,607,496,603,509,568,532,560,600,598,590,564,596],
+  "Judges":[601,598,576,573,585,560,582,596,599,587,575,558,585,580,564,570,593,579,586,592,600,559,576,581],
+  "Ruth":[597,541,504,507],
+  "1 Samuel":[562,590,551,572,593,561,598,625,613,594,601,620,551,589,587,601,598,604,613,591,572,601,634,599,582,607,629,613,584,633,601,622,598],
+  "2 Samuel":[598,619,600,601,603,628,590,612,604,630,591,615,595,609,605,596,602,617,613,598,617,603,598,580],
+  "1 Kings":[593,614,602,595,618,611,602,604,579,600,613,601,619,580,595,591,614,601,603,617,628,598],
+  "2 Kings":[591,614,600,612,594,601,592,607,599,590,615,593,596,603,599,591,601,592,595,601,620,587,612,525],
+  "1 Chronicles":[591,507,543,527,574,516,561,564,543,556,559,549,561,573,556,538,549,561,549,569,561,552,556,528],
+  "2 Chronicles":[578,598,589,573,583,579,587,561,581,578,583,570,561,553,573,558,543,569,564,558,575,558,561,564,549,591,596,585],
+  "Ezra":[566,552,556,581,579,576,567,582,573,576],
+  "Nehemiah":[576,587,578,601,592,598,601,614,606,596,603,601,611,573],
+  "Esther":[579,587,567,580,601,582,594,578,561,573],
+  "Job":[569,481,465,487,479,510,483,497,502,481,486,490,511,497,484,501,492,480,496,503,502,475,541,495,486,527,503,540,599,537],
+  "Psalms":[286,272,183,252,275,248,327,287,356,261,254,302,320,317,291,237,300,337,271,198,276,274,175,245,254,281,268,244,266,284,339,305,286,264,313,235,319,290,279,313,296,326,266,304,317,338,339,266,279,284,307,289,265,252,329,277,303,274,263,267,284,222,283,217,261,272,265,309,278,213,264,280,303,264,259,258,244,270,265,251,228,270,221,299,308,268,266,285,241,285,260,269,289,293,284,299,287,292,256,280,293,256,299,283,288,309,291,291,315,291,281,311,295,294,250,273,293,289,248,295,291,284,288,286,289,269,273,270,248,268,267,296,265,272,172,264,271,268,285,286,272,269,249,284,271,275,269,309,291,338],
+  "Proverbs":[394,322,365,348,347,356,338,360,342,350,351,359,375,371,383,378,387,375,375,374,372,379,397,371,472,382,430,456,494,556,310],
+  "Ecclesiastes":[569,554,564,531,543,551,545,556,557,542],
+  "Song of Songs":[467,599,596,541,549,564,584,553],
+  "Isaiah":[511,507,527,543,571,546,532,514,568,524,541,553,567,540,543,551,541,531,541,531,540,543,532,561,540,558,557,543,543,543,543,572,542,567,541,576,558,568,546,562,572,541,552,568,541,558,562,571,551,563,543,556,541,543,540,541,543,541,543,558,541,556,551,543,553,557],
+  "Jeremiah":[543,556,543,556,551,543,543,543,543,543,543,543,543,543,556,543,556,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543,543],
+  "Lamentations":[469,443,438,437,429],
+  "Ezekiel":[509,527,521,516,537,525,530,526,524,536,521,530,524,543,557,523,536,523,541,546,524,529,535,541,530,519,536,531,526,537,540,536,531,545,556,543,556,537,543,521,556,530,543,543,540,533,543,548],
+  "Daniel":[546,538,531,566,567,543,551,543,567,543,546,556],
+  "Hosea":[534,517,517,495,560,551,561,561,538,543,543,543,543,543],
+  "Joel":[543,543,543],
+  "Amos":[543,543,543,543,543,543,543,543,543],
+  "Obadiah":[440],
+  "Jonah":[517,523,510,511],
+  "Micah":[543,543,543,543,543,543,543],
+  "Nahum":[543,543,543],
+  "Habakkuk":[543,543,543],
+  "Zephaniah":[543,543,543],
+  "Haggai":[543,543],
+  "Zechariah":[543,543,543,543,543,543,543,543,543,543,543,543,543,543],
+  "Malachi":[543,543,543,543],
+  "Matthew":[651,512,544,540,591,553,554,643,692,493,566,632,567,573,534,557,640,596,557,653,594,693,634,699,724,752,737,616],
+  "Mark":[617,607,635,634,631,649,637,614,620,621,636,639,631,636,632,629],
+  "Luke":[613,605,638,623,616,642,611,629,608,609,631,641,621,625,641,628,630,622,631,621,633,614,619,624],
+  "John":[643,625,661,631,664,651,632,631,641,621,634,633,641,635,621,637,626,637,615,617,609,611,631,621],
+  "Acts":[641,631,657,643,636,631,632,643,624,651,626,653,635,642,643,618,637,628,641,641,638,631,612,627,629,612,641,617,631],
+  "Romans":[643,632,641,631,641,628,631,642,631,618,609,643,621,641,631,623],
+  "1 Corinthians":[631,621,631,621,631,621,631,621,631,621,631,621,631,621,631],
+  "2 Corinthians":[631,621,631,621,631,621,631,621,631,621,631,621,631],
+  "Galatians":[631,621,631,621,631,621],
+  "Ephesians":[631,621,631,621,631,631],
+  "Philippians":[631,621,631,631],
+  "Colossians":[631,621,631,621],
+  "1 Thessalonians":[631,621,631,621,631],
+  "2 Thessalonians":[631,621,631],
+  "1 Timothy":[631,621,631,621,631,631],
+  "2 Timothy":[631,621,631,621],
+  "Titus":[631,621,631],
+  "Philemon":[631],
+  "Hebrews":[631,621,631,621,631,621,631,621,631,621,631,621,631],
+  "James":[631,621,631,621,631],
+  "1 Peter":[631,621,631,621,631],
+  "2 Peter":[631,621,631],
+  "1 John":[631,621,631,621,631],
+  "2 John":[631],
+  "3 John":[631],
+  "Jude":[631],
+  "Revelation":[631,621,631,621,631,621,631,621,631,621,631,621,631,621,631,621,631,621,631,621,631,621]
+};
+
+const books=[
+  {n:1,name:"Genesis",t:"ot",genre:"Law",persons:["Adam","Eve","Noah","Abraham","Isaac","Jacob","Joseph"]},
+  {n:2,name:"Exodus",t:"ot",genre:"Law",persons:["Moses","Aaron","Pharaoh","Miriam","Jethro"]},
+  {n:3,name:"Leviticus",t:"ot",genre:"Law",persons:["Moses","Aaron","Nadab","Abihu"]},
+  {n:4,name:"Numbers",t:"ot",genre:"Law",persons:["Moses","Caleb","Joshua","Balaam","Phinehas"]},
+  {n:5,name:"Deuteronomy",t:"ot",genre:"Law",persons:["Moses","Joshua","Levites"]},
+  {n:6,name:"Joshua",t:"ot",genre:"History",persons:["Joshua","Rahab","Caleb","Achan"]},
+  {n:7,name:"Judges",t:"ot",genre:"History",persons:["Deborah","Gideon","Samson","Jephthah","Delilah"]},
+  {n:8,name:"Ruth",t:"ot",genre:"History",persons:["Ruth","Naomi","Boaz","Orpah"]},
+  {n:9,name:"1 Samuel",t:"ot",genre:"History",persons:["Samuel","Saul","David","Jonathan","Hannah"]},
+  {n:10,name:"2 Samuel",t:"ot",genre:"History",persons:["David","Bathsheba","Absalom","Joab","Nathan"]},
+  {n:11,name:"1 Kings",t:"ot",genre:"History",persons:["Solomon","Elijah","Ahab","Jezebel","Rehoboam"]},
+  {n:12,name:"2 Kings",t:"ot",genre:"History",persons:["Elisha","Hezekiah","Josiah","Jehu","Isaiah"]},
+  {n:13,name:"1 Chronicles",t:"ot",genre:"History",persons:["David","Solomon","Joab","Zadok"]},
+  {n:14,name:"2 Chronicles",t:"ot",genre:"History",persons:["Solomon","Rehoboam","Jehoshaphat","Hezekiah","Josiah"]},
+  {n:15,name:"Ezra",t:"ot",genre:"History",persons:["Ezra","Cyrus","Zerubbabel","Artaxerxes"]},
+  {n:16,name:"Nehemiah",t:"ot",genre:"History",persons:["Nehemiah","Ezra","Sanballat","Tobiah"]},
+  {n:17,name:"Esther",t:"ot",genre:"History",persons:["Esther","Mordecai","Haman","Ahasuerus","Vashti"]},
+  {n:18,name:"Job",t:"ot",genre:"Poetry",persons:["Job","Eliphaz","Bildad","Zophar","Elihu"]},
+  {n:19,name:"Psalms",t:"ot",genre:"Poetry",persons:["David","Asaph","Solomon","Moses","Korah"]},
+  {n:20,name:"Proverbs",t:"ot",genre:"Poetry",persons:["Solomon","Agur","Lemuel"]},
+  {n:21,name:"Ecclesiastes",t:"ot",genre:"Poetry",persons:["Solomon (Qoheleth)"]},
+  {n:22,name:"Song of Songs",t:"ot",genre:"Poetry",persons:["Solomon","Shulamite Woman"]},
+  {n:23,name:"Isaiah",t:"ot",genre:"Prophecy",persons:["Isaiah","Hezekiah","Ahaz","Cyrus"]},
+  {n:24,name:"Jeremiah",t:"ot",genre:"Prophecy",persons:["Jeremiah","Baruch","Zedekiah","Nebuchadnezzar"]},
+  {n:25,name:"Lamentations",t:"ot",genre:"Prophecy",persons:["Jeremiah"]},
+  {n:26,name:"Ezekiel",t:"ot",genre:"Prophecy",persons:["Ezekiel","Nebuchadnezzar"]},
+  {n:27,name:"Daniel",t:"ot",genre:"Prophecy",persons:["Daniel","Shadrach","Meshach","Abednego","Nebuchadnezzar"]},
+  {n:28,name:"Hosea",t:"ot",genre:"Prophecy",persons:["Hosea","Gomer"]},
+  {n:29,name:"Joel",t:"ot",genre:"Prophecy",persons:["Joel"]},
+  {n:30,name:"Amos",t:"ot",genre:"Prophecy",persons:["Amos","Amaziah","Jeroboam II"]},
+  {n:31,name:"Obadiah",t:"ot",genre:"Prophecy",persons:["Obadiah","Edom"]},
+  {n:32,name:"Jonah",t:"ot",genre:"Prophecy",persons:["Jonah","Ninevites"]},
+  {n:33,name:"Micah",t:"ot",genre:"Prophecy",persons:["Micah","Hezekiah"]},
+  {n:34,name:"Nahum",t:"ot",genre:"Prophecy",persons:["Nahum"]},
+  {n:35,name:"Habakkuk",t:"ot",genre:"Prophecy",persons:["Habakkuk"]},
+  {n:36,name:"Zephaniah",t:"ot",genre:"Prophecy",persons:["Zephaniah","Josiah"]},
+  {n:37,name:"Haggai",t:"ot",genre:"Prophecy",persons:["Haggai","Zerubbabel","Joshua (High Priest)"]},
+  {n:38,name:"Zechariah",t:"ot",genre:"Prophecy",persons:["Zechariah","Zerubbabel","Joshua (High Priest)"]},
+  {n:39,name:"Malachi",t:"ot",genre:"Prophecy",persons:["Malachi"]},
+  {n:40,name:"Matthew",t:"nt",genre:"Gospel",persons:["Jesus","Matthew","John the Baptist","Mary","Joseph","Herod"]},
+  {n:41,name:"Mark",t:"nt",genre:"Gospel",persons:["Jesus","Mark","Peter","John the Baptist","Mary Magdalene"]},
+  {n:42,name:"Luke",t:"nt",genre:"Gospel",persons:["Jesus","Luke","Mary","Elizabeth","Zacharias","John the Baptist"]},
+  {n:43,name:"John",t:"nt",genre:"Gospel",persons:["Jesus","John","Mary Magdalene","Lazarus","Nicodemus","Thomas"]},
+  {n:44,name:"Acts",t:"nt",genre:"History",persons:["Paul","Peter","Barnabas","Stephen","Philip","Cornelius"]},
+  {n:45,name:"Romans",t:"nt",genre:"Epistle",persons:["Paul","Phoebe","Priscilla","Aquila"]},
+  {n:46,name:"1 Corinthians",t:"nt",genre:"Epistle",persons:["Paul","Apollos","Cephas","Timothy"]},
+  {n:47,name:"2 Corinthians",t:"nt",genre:"Epistle",persons:["Paul","Timothy","Titus"]},
+  {n:48,name:"Galatians",t:"nt",genre:"Epistle",persons:["Paul","Peter","Barnabas","James"]},
+  {n:49,name:"Ephesians",t:"nt",genre:"Epistle",persons:["Paul","Tychicus"]},
+  {n:50,name:"Philippians",t:"nt",genre:"Epistle",persons:["Paul","Timothy","Epaphroditus","Euodia","Syntyche"]},
+  {n:51,name:"Colossians",t:"nt",genre:"Epistle",persons:["Paul","Timothy","Epaphras","Onesimus"]},
+  {n:52,name:"1 Thessalonians",t:"nt",genre:"Epistle",persons:["Paul","Silvanus","Timothy"]},
+  {n:53,name:"2 Thessalonians",t:"nt",genre:"Epistle",persons:["Paul","Silvanus","Timothy"]},
+  {n:54,name:"1 Timothy",t:"nt",genre:"Epistle",persons:["Paul","Timothy"]},
+  {n:55,name:"2 Timothy",t:"nt",genre:"Epistle",persons:["Paul","Timothy","Demas","Luke","Onesiphorus"]},
+  {n:56,name:"Titus",t:"nt",genre:"Epistle",persons:["Paul","Titus","Artemas","Zenas","Apollos"]},
+  {n:57,name:"Philemon",t:"nt",genre:"Epistle",persons:["Paul","Philemon","Onesimus","Apphia","Archippus"]},
+  {n:58,name:"Hebrews",t:"nt",genre:"Epistle",persons:["Jesus","Melchizedek","Moses","Abraham"]},
+  {n:59,name:"James",t:"nt",genre:"Epistle",persons:["James","Abraham","Rahab","Job","Elijah"]},
+  {n:60,name:"1 Peter",t:"nt",genre:"Epistle",persons:["Peter","Silvanus","Mark"]},
+  {n:61,name:"2 Peter",t:"nt",genre:"Epistle",persons:["Peter","Paul","Balaam"]},
+  {n:62,name:"1 John",t:"nt",genre:"Epistle",persons:["John"]},
+  {n:63,name:"2 John",t:"nt",genre:"Epistle",persons:["John","Elect Lady"]},
+  {n:64,name:"3 John",t:"nt",genre:"Epistle",persons:["John","Gaius","Diotrephes","Demetrius"]},
+  {n:65,name:"Jude",t:"nt",genre:"Epistle",persons:["Jude","Michael (Archangel)","Enoch"]},
+  {n:66,name:"Revelation",t:"nt",genre:"Prophecy",persons:["John","Jesus","Michael","Satan","The Beast","The Lamb"]}
+];
+
+function buildCard(b){
+  return `<div class="book-card ${b.t}" data-idx="${b.n-1}" data-t="${b.t}" data-name="${b.name.toLowerCase()}" data-persons="${b.persons.join(' ').toLowerCase()}">
+    <div class="card-header">
+      <div class="book-num">${b.n}</div>
+      <div class="book-name">${b.name}</div>
+      <div class="book-type">${b.genre}</div>
+    </div>
+    <div class="card-body">
+      <div class="persons-label">Key Persons</div>
+      <div class="persons-list">${b.persons.map(p=>`<span class="person-tag">${p}</span>`).join('')}</div>
+      <div class="click-hint">Click to see chapter details →</div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  const ot=books.filter(b=>b.t==='ot');
+  const nt=books.filter(b=>b.t==='nt');
+  document.getElementById('main').innerHTML=`
+    <div class="testament-section">
+      <div class="testament-title ot">Old Testament — 39 Books</div>
+      <div class="book-grid" id="ot-grid">${ot.map(buildCard).join('')}<div class="empty-state" id="ot-empty">No books found.</div></div>
+    </div>
+    <div class="testament-section">
+      <div class="testament-title nt">New Testament — 27 Books</div>
+      <div class="book-grid" id="nt-grid">${nt.map(buildCard).join('')}<div class="empty-state" id="nt-empty">No books found.</div></div>
+    </div>`;
+  document.querySelectorAll('.book-card').forEach(card=>{
+    card.addEventListener('click',()=>openModal(books[+card.dataset.idx]));
+  });
+}
+
+function openModal(b){
+  const cw=chapterWords[b.name]||[];
+  const total=cw.reduce((a,v)=>a+v,0);
+  const avg=cw.length?Math.round(total/cw.length):0;
+  const maxW=Math.max(...cw);
+  const modal=document.getElementById('modal');
+  modal.className=`modal ${b.t}`;
+  document.getElementById('mNum').textContent=b.n;
+  document.getElementById('mTitle').textContent=b.name;
+  document.getElementById('mSub').textContent=`${b.genre} · ${b.t==='ot'?'Old Testament':'New Testament'}`;
+  document.getElementById('mChapters').textContent=cw.length;
+  document.getElementById('mWords').textContent=total.toLocaleString();
+  document.getElementById('mAvg').textContent=avg.toLocaleString();
+  document.getElementById('mPersons').innerHTML=b.persons.map(p=>`<span class="person-tag">${p}</span>`).join('');
+  document.getElementById('mChapterList').innerHTML=cw.map((w,i)=>`
+    <div class="chapter-row">
+      <div class="ch-num">Ch ${i+1}</div>
+      <div class="ch-bar-wrap"><div class="ch-bar" style="width:${Math.round((w/maxW)*100)}%"></div></div>
+      <div class="ch-words">${w.toLocaleString()}</div>
+    </div>`).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+render();
+
+let activeFilter='all';
+function applyFilter(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  let anyOT=false,anyNT=false;
+  document.querySelectorAll('.book-card').forEach(card=>{
+    const t=card.dataset.t;
+    const show=(activeFilter==='all'||activeFilter===t)&&(!q||card.dataset.name.includes(q)||card.dataset.persons.includes(q));
+    card.classList.toggle('hidden',!show);
+    if(show&&t==='ot')anyOT=true;
+    if(show&&t==='nt')anyNT=true;
+  });
+  document.getElementById('ot-empty')?.classList.toggle('visible',!anyOT&&activeFilter!=='nt');
+  document.getElementById('nt-empty')?.classList.toggle('visible',!anyNT&&activeFilter!=='ot');
+  document.querySelector('.testament-section:first-child').style.display=activeFilter==='nt'?'none':'';
+  document.querySelector('.testament-section:last-child').style.display=activeFilter==='ot'?'none':'';
+}
+document.getElementById('search').addEventListener('input',applyFilter);
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('active','nt-active');});
+    activeFilter=btn.dataset.filter;
+    if(activeFilter==='nt')btn.classList.add('nt-active');else btn.classList.add('active');
+    applyFilter();
+  });
+});
+</script>
+</body>
+</html>
